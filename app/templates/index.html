@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Management System</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f3f6fb; margin:0; color:#1f2937; }
+    main { max-width:900px; margin:40px auto; padding:24px; }
+    h1 { color:#173b70; }
+    .panel { background:white; padding:22px; border-radius:12px; margin:18px 0; box-shadow:0 3px 14px #0000000d; }
+    form.add { display:grid; grid-template-columns:repeat(3,1fr) auto; gap:10px; }
+    input, button { padding:11px; border:1px solid #ccd5e1; border-radius:7px; }
+    button { background:#1769aa; color:white; border:0; cursor:pointer; }
+    button.delete { background:#b42318; padding:8px 12px; }
+    table { width:100%; border-collapse:collapse; }
+    th,td { text-align:left; padding:12px; border-bottom:1px solid #e5e7eb; }
+    th { color:#526174; }
+    @media(max-width:650px) { form.add { grid-template-columns:1fr; } main { margin:10px auto; padding:14px; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Student Management System</h1>
+  <p>Manage student records with a Flask web application and MySQL database.</p>
+  <section class="panel">
+    <h2>Add Student</h2>
+    <form class="add" action="/add" method="post">
+      <input name="name" placeholder="Student name" required>
+      <input name="email" type="email" placeholder="Email address" required>
+      <input name="course" placeholder="Course" required>
+      <button type="submit">Add Student</button>
+    </form>
+  </section>
+  <section class="panel">
+    <h2>Student Records</h2>
+    {% if students %}
+    <table>
+      <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Course</th><th>Action</th></tr></thead>
+      <tbody>
+      {% for student in students %}
+        <tr>
+          <td>{{ student.id }}</td><td>{{ student.name }}</td>
+          <td>{{ student.email }}</td><td>{{ student.course }}</td>
+          <td><form action="/delete/{{ student.id }}" method="post"><button class="delete" type="submit">Delete</button></form></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p>No student records yet. Add the first student above.</p>
+    {% endif %}
+  </section>
+</main>
+</body>
+</html>
